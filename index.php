@@ -36,6 +36,10 @@ function getRequestBody($request) {
 }
 
 $app->any('/', function (Request $request, Response $response, array $args) {
+    return "tengok apa?";
+});
+
+$app->any('/hook', function (Request $request, Response $response, array $args) {
 
     $fp = fopen('log.txt', 'a');
 
