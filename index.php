@@ -24,15 +24,9 @@ function getRequestHeaders($request)
 }
 
 function getRequestBody($request) {
-    if($request->getParsedBody() === null) return;
-
-    $output = "";
-
-    foreach ($request->getParsedBody() as $key => $value) {
-        $output .= "${key} => ${value}\n";
-    }
-
-    return $output;
+    ob_start();
+    var_dump($request->getParsedBody());
+    return ob_get_clean();
 }
 
 $app->any('/', function (Request $request, Response $response, array $args) {
@@ -62,10 +56,9 @@ $app->any('/hook', function (Request $request, Response $response, array $args) 
     ]) . "\n========================\n\n";
 
     fwrite($fp, $data);
+    fclose($fp);
 
     return "<pre>${data}</pre>";
 });
-
-fclose($fp);
 
 $app->run();
